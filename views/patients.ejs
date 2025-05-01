@@ -1,0 +1,18 @@
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Log</th>
+    </tr>
+    <% patients.forEach(patient => { %>
+        <tr>
+            <td><%= patient.id %></td>
+            <td><%= patient.name %></td>
+            <td><%= patient.gender %></td>
+            <td><%= patient.age %></td>
+            <td><%= patient.patient_log %></td>
+        </tr>
+    <% }); %>
+</table>

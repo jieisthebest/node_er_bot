@@ -1,0 +1,25 @@
+{
+  "name": "er_triage_bot",
+  "version": "1.0.0",
+  "description": "simple node.js er triage bot ",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jieisthebest/node_er_bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jieisthebest/node_er_bot/issues"
+  },
+  "homepage": "https://github.com/jieisthebest/node_er_bot#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "ejs": "^3.0.3",
+    "sqlite3": "^5.1.7"
+  }
+}

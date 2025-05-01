@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delete Patient</title>
+</head>
+<body>
+    <h1>Delete Patient</h1>
+    <p>Are you sure you want to delete <%= patient.name %>?</p>
+    
+    <form action="/delete/<%= patient.id %>" method="POST">
+        <button type="submit">Yes, Delete</button>
+        <a href="/patients">Cancel</a>
+    </form>
+</body>
+</html>

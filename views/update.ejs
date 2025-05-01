@@ -1,0 +1,7 @@
+<form action="/update/<%= patient.id %>" method="POST">
+    <input type="text" name="name" value="<%= patient.name %>" required>
+    <input type="text" name="gender" value="<%= patient.gender %>" required>
+    <input type="number" name="age" value="<%= patient.age %>" required>
+    <input type="text" name="patient_log" value="<%= patient.patient_log %>" required>
+    <button type="submit">Update Patient</button>
+</form>
