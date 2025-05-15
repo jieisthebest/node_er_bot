@@ -2,6 +2,8 @@
 
 Node-ER Bot is a Node.js-based emergency room triage and diagnosis tool that helps healthcare professionals quickly assess patient data and symptoms to determine if an ER visit is required. It leverages an Express server, EJS templates for dynamic views, and SQLite databases to manage patient records and symptom triage information.
 
+Available on render: https://node-er-bot.onrender.com
+
 ## Overview
 
 Node-ER Bot provides a simple interface where patient information—including age, gender, and a log of symptoms—is displayed. The system then queries a dedicated triage database to retrieve diagnosis results based on the patient's symptoms. With built-in conditional styling, the application highlights cases that require an ER visit, making it easier to prioritize critical cases.
