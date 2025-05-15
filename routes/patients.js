@@ -1,16 +1,31 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const router = express.Router();
+const { patientSymptomId, patientDb } = require('../db');
 
-// Connect to the database
-const db = new sqlite3.Database('patient.db');
-
-// Read (GET) - View all patients
+// view all patients via
 router.get('/', (req, res) => {
-    db.all("SELECT * FROM patients", (err, rows) => {
+    patientSymptomId((err, rows) => {
         if (err) return res.status(500).send("Database error");
-        res.render('patients', { patients: rows }); // Render EJS template
+
+//attaching database
+patientDb.run("ATTACH DATABASE './triage.db' AS triagedb", (attachErr) => {
+      if (attachErr) {
+        console.error("Error attaching triage.db:", attachErr.message);
+        return res.status(500).send("Database attachment error");
+      }
+
+        //new join query
+        const symptomQuery = `
+  SELECT sd.patient_id, sd.symptom_id, t.symptom, t.location, t.severity, t.er_visit_required
+  FROM symptom_details sd 
+  JOIN triagedb.triage t ON sd.symptom_id = t.id
+`;
+
+        patientDb.all(symptomQuery, (err2,symptoms)=>{
+            if(err2)return res.status(500).send("database join error");
+            res.render('patients', { patients: rows,symptoms:symptoms }); // Render EJS template
     });
 });
-
+});
+});
 module.exports = router;

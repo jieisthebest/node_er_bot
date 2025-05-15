@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Delete Patient</title>
+  <meta charset="UTF-8">
+  <title>Delete Patients</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Delete Patient</h1>
-    <p>Are you sure you want to delete <%= patient.name %>?</p>
-    
-    <form action="/delete/<%= patient.id %>" method="POST">
-        <button type="submit">Yes, Delete</button>
-        <a href="/patients">Cancel</a>
-    </form>
+  <h1>To delete please click patient</h1>
+  <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Severity</th>
+        <th>Patient Log</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% patients.forEach(function(patient) { %>
+        <!-- Display row -->
+        <tr id="display-<%= patient.id %>">
+          <td><%= patient.id %></td>
+          <td><%= patient.name %></td>
+          <td><%= patient.gender %></td>
+          <td><%= patient.age %></td>
+          <td><%= patient.severity %></td>
+          <td><%= patient.patient_log %></td>
+          <td>
+            <button onclick="toggleDelete('<%= patient.id %>')">Delete</button>
+          </td>
+        </tr>
+        <!-- Inline delete confirmation row (initially hidden) -->
+        <tr id="delete-<%= patient.id %>" style="display: none;">
+          <td colspan="7">
+            <form action="/delete/<%= patient.id %>" method="POST">
+              <p>Are you sure you want to delete <strong><%= patient.name %></strong>?</p>
+              <button type="submit">Yes, Delete</button>
+              <button type="button" onclick="toggleDelete('<%= patient.id %>')">Cancel</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <script>
+    function toggleDelete(patientId) {
+      var deleteRow = document.getElementById('delete-' + patientId);
+      // Toggle display between none and table-row
+      if (deleteRow.style.display === 'none' || deleteRow.style.display === '') {
+        deleteRow.style.display = 'table-row';
+      } else {
+        deleteRow.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>

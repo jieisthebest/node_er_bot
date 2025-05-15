@@ -1,30 +1,27 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const router = express.Router();
 
-// Connect to the database
-const db = new sqlite3.Database('patient.db');
-
-// Display the update form (GET request)
-router.get('/:id', (req, res) => {
-    const patientId = req.params.id;
-
-    db.get("SELECT * FROM patients WHERE id=?", [patientId], (err, patient) => {
-        if (!patient) return res.status(404).send("Patient Not Found");
-        res.render('update', { patient });
+//get:show me all the patients
+router.get('/',(req,res)=> {
+    const patientDb = req.app.locals.patientDb;
+    patientDb.all("SELECT * FROM patients",(err,rows)=>{
+        if (err) return res.status(500).send("Database error");
+        res.render('update',{patients:rows});
     });
 });
 
-// Handle patient update (POST request)
-router.post('/:id', (req, res) => {
-    const { name, gender, age, patient_log } = req.body;
+//post: 
+router.post('/edit/:id',(req,res) => {
     const patientId = req.params.id;
-
-    db.run("UPDATE patients SET name=?, gender=?, age=?, patient_log=? WHERE id=?", 
-        [name, gender, age, patient_log, patientId], function (err) {
-        if (err) return res.status(500).send("Database error");
-        
-        res.redirect('/patients'); // Redirect to patients list after updating
+    const { name,gender,age}= req.body;
+    const patientDb = req.app.locals.patientDb;
+    const updateQuery = "UPDATE patients SET name = ?, gender = ?, age = ? WHERE id = ?";
+    patientDb.run(updateQuery,[name,gender,age,patientId], function(err){
+        if(err) {
+            console.error("error updating:",err.message);
+            return res.status(400).send("error updating records");
+        }
+        res.redirect('/update');
     });
 });
 

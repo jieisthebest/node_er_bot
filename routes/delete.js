@@ -1,28 +1,22 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const router = express.Router();
 
-// Connect to the database
-const db = new sqlite3.Database('patient.db');
-
-// Display delete confirmation page (GET request)
-router.get('/:id', (req, res) => {
-    const patientId = req.params.id;
-
-    db.get("SELECT * FROM patients WHERE id=?", [patientId], (err, patient) => {
-        if (!patient) return res.status(404).send("Patient Not Found");
-        res.render('delete', { patient });
+//show all the patients
+router.get('/',(req,res)=> {
+    const patientDb = req.app.locals.patientDb;
+    patientDb.all("SELECT * FROM patients", (err,rows)=>{
+        if (err) return res.status(500).send("database error");
+        res.render('delete',{patients:rows});
     });
 });
 
-// Handle patient deletion (POST request)
-router.post('/:id', (req, res) => {
+//delete
+router.post('/:id',(req,res)=> {
     const patientId = req.params.id;
-
-    db.run("DELETE FROM patients WHERE id=?", [patientId], function (err) {
-        if (err) return res.status(500).send("Database error");
-
-        res.redirect('/patients'); // Redirect to patient list after deletion
+    const patientDb = req.app.locals.patientDb;
+    patientDb.run("DELETE FROM patients WHERE id=?", [patientId], (err) => {
+        if (err) return res.status(400).send("could not delete");
+        res.redirect('/delete');
     });
 });
 

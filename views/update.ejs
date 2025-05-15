@@ -1,7 +1,75 @@
-<form action="/update/<%= patient.id %>" method="POST">
-    <input type="text" name="name" value="<%= patient.name %>" required>
-    <input type="text" name="gender" value="<%= patient.gender %>" required>
-    <input type="number" name="age" value="<%= patient.age %>" required>
-    <input type="text" name="patient_log" value="<%= patient.patient_log %>" required>
-    <button type="submit">Update Patient</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Patients</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Patients List for Update</h1>
+  <table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Patient Log</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% patients.forEach(function(patient) { %>
+        <!-- Display row -->
+        <tr id="display-<%= patient.id %>">
+          <td><%= patient.id %></td>
+          <td><%= patient.name %></td>
+          <td><%= patient.gender %></td>
+          <td><%= patient.age %></td>
+          <td><%= patient.patient_log %></td>
+          <td>
+            <button onclick="toggleEdit('<%= patient.id %>')">Edit</button>
+          </td>
+        </tr>
+        <!-- Inline edit form row (initially hidden) -->
+        <tr id="edit-<%= patient.id %>" style="display: none;">
+          <td colspan="6">
+            <form action="/update/edit/<%= patient.id %>" method="POST">
+              <label>
+                Name:
+                <input type="text" name="name" value="<%= patient.name %>" required>
+              </label>
+              <br>
+              <label>
+                Gender:
+                <input type="text" name="gender" value="<%= patient.gender %>" required>
+              </label>
+              <br>
+              <label>
+                Age:
+                <input type="number" name="age" value="<%= patient.age %>" required>
+              </label>
+              <br>
+              <!-- Patient log is not editable here. Please re-run triage as your diagnosis may change -->
+              <button type="submit">Save</button>
+              <button type="button" onclick="toggleEdit('<%= patient.id %>')">Cancel</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <script>
+    function toggleEdit(patientId) {
+      // If patientId comes in as a string, convert it if necessary
+      var editRow = document.getElementById('edit-' + patientId);
+      if (editRow.style.display === 'none' || editRow.style.display === '') {
+        editRow.style.display = 'table-row';
+      } else {
+        editRow.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

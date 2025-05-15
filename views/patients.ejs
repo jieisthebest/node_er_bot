@@ -1,18 +1,89 @@
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Gender</th>
-        <th>Age</th>
-        <th>Log</th>
-    </tr>
-    <% patients.forEach(patient => { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patients List with Symptom Details</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    // Simple function to toggle the visibility of the detailed symptom row.
+    function toggleDetails(patientId) {
+      var detailsRow = document.getElementById("symptoms-" + patientId);
+      if (detailsRow.style.display === "none" || detailsRow.style.display === "") {
+        detailsRow.style.display = "table-row";
+      } else {
+        detailsRow.style.display = "none";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Patients List</h1>
+    <table>
+      <thead>
         <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% patients.forEach(function(patient) { %>
+          <!-- Patient display row -->
+          <tr>
             <td><%= patient.id %></td>
             <td><%= patient.name %></td>
             <td><%= patient.gender %></td>
             <td><%= patient.age %></td>
-            <td><%= patient.patient_log %></td>
-        </tr>
-    <% }); %>
-</table>
+            <td>
+              <button onclick="toggleDetails('<%= patient.id %>')">
+                View Symptom Details
+              </button>
+            </td>
+          </tr>
+          
+          <!-- Hidden row with the expandable symptom details table -->
+          <tr id="symptoms-<%= patient.id %>" style="display: none;">
+            <td colspan="5">
+              <% 
+                // Filter the symptoms array to get details matching this patient
+                var patientSymptoms = symptoms.filter(function(detail) {
+                  return detail.patient_id == patient.id;
+                });
+              %>
+              <% if (patientSymptoms.length > 0) { %>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Symptom ID</th>
+                      <th>Symptom</th>
+                      <th>Location</th>
+                      <th>Severity</th>
+                      <th>ER Visit Required</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% patientSymptoms.forEach(function(detail) { %>
+                      <tr>
+                        <td><%= detail.symptom_id %></td>
+                        <td><%= detail.symptom %></td>
+                        <td><%= detail.location %></td>
+                        <td><%= detail.severity %></td>
+                        <td><%= detail.er_visit_required ? "Yes" : "No" %></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              <% } else { %>
+                <p>No symptom details available for this patient.</p>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

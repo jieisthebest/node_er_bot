@@ -1,32 +1,39 @@
 const express = require('express');
 const path = require('path');
-
 const app = express();
+const { getDb } = require('./db');
 
-// Middleware for parsing form data
+// middleware 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
-// Set up EJS for views
+// ejs 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Import routes
-const triageRouter = require('./routes/triage');
-const patientsRouter = require('./routes/patients'); // Read (View All Patients)
-const updateRouter = require('./routes/update'); // Update Patient Data
-const deleteRouter = require('./routes/delete'); // Delete Patient
+//db connection
+app.locals.patientDb = getDb('patient.db');
+app.locals.triageDb = getDb('triage.db');
 
-// Use routes
-app.use('/triage', triageRouter);  // Create
-app.use('/patients', patientsRouter);  // Read
-app.use('/update', updateRouter);  // Update
-app.use('/delete', deleteRouter);  // Delete
+// routes
+const triageRouter = require('./routes/triage');  
+const patientsRouter = require('./routes/patients'); 
+const updateRouter = require('./routes/update'); 
+const deleteRouter = require('./routes/delete'); 
+const diagnosisRouter = require('./routes/diagnosis');
 
-// Home Route
+// CRUD routes
+
+app.use('/triage', triageRouter);  // create
+app.use('/patients', patientsRouter);  // read
+app.use('/update', updateRouter);  // update
+app.use('/delete', deleteRouter);  // delete
+app.use('/diagnosis', diagnosisRouter); //diagnosis
+
+// index Route
 app.get('/', (req, res) => {
     res.render('index');
 });
 
-// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

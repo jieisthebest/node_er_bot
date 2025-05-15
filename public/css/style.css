@@ -1,0 +1,129 @@
+/* General Styles */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container for content */
+.container {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #1e1e1e;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #f0f0f0;
+  margin: 20px 0;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table tr:nth-child(even) {
+  background-color: #1a1a1a;
+}
+
+table th,
+table td {
+  border: 1px solid #333;
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background-color: #282828;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+button {
+  background-color: #3c3c3c;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555555;
+}
+
+/* Form Input Styles */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  background-color: #2e2e2e;
+  border: 1px solid #555;
+  color: #e0e0e0;
+  padding: 8px;
+  margin: 5px 0 15px 0;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+/* Form Labels */
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  color: #ccc;
+}
+
+/* Hidden Element Helper */
+.hidden {
+  display: none;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.alert.error {
+  background-color: #d32f2f;
+}
+
+.alert.success {
+  background-color: #388e3c;
+}
+
+/* Utility Spacing Classes */
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+li a {
+  color: #d3d3d3;         /* Light gray color */
+  text-decoration: none;  /* Optional: Removes underline */
+}
+li a:hover {
+  color: #a9a9a9;         /* Change color on hover */
+}
+
+.highlight-er {
+  color: red;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Diagnosis for <%= patient.name %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Diagnosis for <%= patient.name %></h1>
+  <p>
+    <strong>Age:</strong> <%= patient.age %><br>
+    <strong>Gender:</strong> <%= patient.gender %><br>
+    <strong>Date:</strong> <%= patient.date %>
+  </p>
+  
+  <h2>Patient Log</h2>
+  <p><%= patient.patient_log %></p>
+  
+  <h2>Diagnosis Results</h2>
+  <% if (results.length === 0) { %>
+    <p>No matching diagnosis was found for the given symptoms.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Symptom</th>
+          <th>Location</th>
+          <th>Severity</th>
+          <th>ER Visit Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach(function(result) { %>
+          <tr>
+            <td><%= result.id %></td>
+            <!-- Conditionally apply the highlight class to the symptom cell -->
+            <td class="<%= result.er_visit_required ? 'highlight-er' : '' %>"><%= result.symptom %></td>
+            <td><%= result.location %></td>
+            <td><%= result.severity %></td>
+            <td><%= result.er_visit_required ? "Yes" : "No" %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+  
+  <p>
+    <a href="/">Return home</a>
+  </p>
+</body>
+</html>
